@@ -1,15 +1,14 @@
 <template>
-  <page></page>
+  <bar></bar>
 </template>
 <script>
-import Hello from './components/Hello'
-import page from './components/page'
+import Muse from './components/Muse.vue'
+import bar from './components/bar.vue'
 export default {
   components: {
-    Hello,
-    page
+    Muse,
+    bar
   }
 }
 </script>
-<style>
-</style>
+

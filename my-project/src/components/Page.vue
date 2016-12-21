@@ -15,14 +15,12 @@
             openToast() {
                 Toast('提示信息');
             },
-
             openToastWithIcon() {
                 Toast({
                     message: '操作成功',
                     iconClass: 'mintui mintui-success'
                 });
             },
-
             openBottomToast() {
                 Toast({
                     message: '提示信息',
