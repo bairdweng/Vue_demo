@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -7,6 +8,11 @@
   <link rel="stylesheet" href="//at.alicdn.com/t/font_1469597443_9221172.css">
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+  <!--一定要加这个，否则无效-->
+        <transition name="component-fade">
+           <router-view></router-view>
+        </transition>
+</div>
 </body>
 </html>
