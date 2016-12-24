@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-  import Muse from './Muse.vue'
+  import Muse from '../Main.vue'
   import bar from './Bar.vue'
   import BottomNavigation from './BottomNavigation.vue'
   export default {
