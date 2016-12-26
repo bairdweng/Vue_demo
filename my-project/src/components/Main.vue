@@ -1,15 +1,17 @@
 <template>
-    <div class="demo-infinite-container">
+    <div v-bind:style="customStyle">
+        <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
+
         <div class="loading">
             <mu-circular-progress :size="25" :strokeWidth="2" v-if="progress"/>
         </div>
         <div v-for="item in items">
             <router-link to="/newpage">
                 <mu-card-header :title="item.author_name" :subTitle="item.title">
-                    <mu-avatar :src="item.thumbnail_pic_s02" slot="avatar"/>
+                    <mu-avatar :src="item.thumbnail_pic_s" slot="avatar"/>
                 </mu-card-header>
-                <mu-card-media :title="item.realtype" :subTitle="item.type">
-                    <img :src="item.thumbnail_pic_s02"/>
+                <mu-card-media :title="item.category" :subTitle="item.author_name">
+                    <img :src="item.thumbnail_pic_s"/>
                 </mu-card-media>
             </router-link>
         </div>
@@ -24,48 +26,71 @@
                 items:[],
                 progress:true,
                 loading:false,
-                scroller: null
+                refreshing:false,
+                scroller: null,
+                trigger: null,
+                page:0,
+                url:'http://123.207.47.17/xgg/news',
+                customStyle:{
+                    width: '100%',
+                    'overflow': 'auto',
+//                    'overflow-x': 'hidden',
+                    height:'100%',
+                    '-webkit-overflow-scrolling': 'touch',
+                    position: 'relative',
+                    'user-select': 'none'
+                }
             }
         },
         mounted () {
             this.scroller = this.$el
+            this.trigger = this.$el
         },
+        watch:{
+            'window.onresize':{
+                handler:(val,oldVal)=>{
+                    console.log(val,oldVal);
+                },
+                deep:true
+        }},
         methods:{
             loadMore () {
                this.getdate(true);
             },
+            refresh(){
+                this.refreshing = true
+                this.getdate(false)
+            },
             getdate(ismore){
                 if (ismore){
+                    this.page++;
+                    console.log(this.page);
                     this.loading = true;
-                    this.$http.get('http://v.juhe.cn/toutiao/index?type=&key=cee8d108ce2da022b1a011d68eee0743')
+                    this.$http.get(this.url)
                             .then((response) => {
                                 this.loading = false;
+                                var items = response.data['result']['data'];
+                                this.items=this.items.concat(items);
                             });
                 }
                 else {
-                    this.$http.get('http://v.juhe.cn/toutiao/index?type=&key=cee8d108ce2da022b1a011d68eee0743')
+                    this.$http.get(this.url)
                             .then((response) => {
                                 var items = response.data['result']['data'];
                                 this.items = items;
                                 this.progress = false;
+                                this.refreshing = false
                             });
                 }
             }
         },
         created () {
             this.getdate(false);
+            //设定窗口高度。
+//            this.customStyle.height = window.innerHeight+'px';
         }
     }
 </script>
 
-<style lang="css">
-    .demo-infinite-container{
-        width: 100%;
-        height: 600px;
-        overflow: auto;
-        -webkit-overflow-scrolling: auto;
-        border: 1px solid #d9d9d9;
-    }
-</style>
 
 

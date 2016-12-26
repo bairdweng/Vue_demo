@@ -3,8 +3,8 @@
         <div class="zhanwei"></div>
         <keep-alive>
             <muse v-if="bottomNav === 'tab1'"></muse>
-            <div v-if="bottomNav === 'tab2'">卧槽你大爷</div>
-            <div v-if="bottomNav === 'tab3'">卧槽你大爷,我是第3个页面</div>
+            <div v-if="bottomNav === 'tab2'"></div>
+            <div v-if="bottomNav === 'tab3'"></div>
         </keep-alive>
         <div class="fixed_div">
             <mu-appbar :title='title'>
