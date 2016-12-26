@@ -1,6 +1,5 @@
 <template>
     <div id="mainview">
-        <div class="zhanwei"></div>
         <keep-alive>
             <muse v-if="bottomNav === 'tab1'"></muse>
             <div v-if="bottomNav === 'tab2'"></div>
@@ -10,7 +9,6 @@
             <mu-appbar :title='title'>
             </mu-appbar>
         </div>
-        <div class="zhanwei"></div>
         <div class="fixed_bottom">
             <mu-paper>
                 <mu-bottom-nav :value="bottomNav" @change="handleChange">

@@ -1,24 +1,22 @@
 <template>
     <div v-bind:style="customStyle">
         <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
-
         <div class="loading">
             <mu-circular-progress :size="25" :strokeWidth="2" v-if="progress"/>
         </div>
         <div v-for="item in items">
-            <router-link to="/newpage">
+            <!--<router-link to="/newpage">-->
                 <mu-card-header :title="item.author_name" :subTitle="item.title">
                     <mu-avatar :src="item.thumbnail_pic_s" slot="avatar"/>
                 </mu-card-header>
                 <mu-card-media :title="item.category" :subTitle="item.author_name">
                     <img :src="item.thumbnail_pic_s"/>
                 </mu-card-media>
-            </router-link>
+            <!--</router-link>-->
         </div>
         <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore" loadingText="加载中"/>
     </div>
 </template>
-
 <script>
     export default{
         data (){
@@ -32,13 +30,15 @@
                 page:0,
                 url:'http://123.207.47.17/xgg/news',
                 customStyle:{
+                    top: '55px',
                     width: '100%',
-                    'overflow': 'auto',
-//                    'overflow-x': 'hidden',
-                    height:'100%',
+                    height:'100px',
+                    'overflow-y':'auto',
+                    'overflow-x':'hidden',
                     '-webkit-overflow-scrolling': 'touch',
                     position: 'relative',
-                    'user-select': 'none'
+                    'user-select': 'none',
+                    bottom:'100px'
                 }
             }
         },
@@ -87,7 +87,8 @@
         created () {
             this.getdate(false);
             //设定窗口高度。
-//            this.customStyle.height = window.innerHeight+'px';
+            this.customStyle.height = window.innerHeight-55+'px';
+//            this.customStyle.height = '100px';
         }
     }
 </script>
