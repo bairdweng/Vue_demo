@@ -1,9 +1,11 @@
 <template>
     <div id="mainview">
         <div class="zhanwei"></div>
-        <muse v-if="bottomNav === 'tab1'"></muse>
-        <div v-if="bottomNav === 'tab2'">卧槽你大爷</div>
-        <div v-if="bottomNav === 'tab3'">卧槽你大爷,我是第3个页面</div>
+        <keep-alive>
+            <muse v-if="bottomNav === 'tab1'"></muse>
+            <div v-if="bottomNav === 'tab2'">卧槽你大爷</div>
+            <div v-if="bottomNav === 'tab3'">卧槽你大爷,我是第3个页面</div>
+        </keep-alive>
         <div class="fixed_div">
             <mu-appbar :title='title'>
             </mu-appbar>
