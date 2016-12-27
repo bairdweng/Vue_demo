@@ -1,18 +1,19 @@
 <template>
-    <div v-bind:style="customStyle">
+    <div>
         <mu-refresh-control :refreshing="refreshing" :trigger="trigger" @refresh="refresh"/>
         <div class="loading">
             <mu-circular-progress :size="25" :strokeWidth="2" v-if="progress"/>
         </div>
-        <div v-for="item in items">
-            <!--<router-link to="/newpage">-->
+        <div id="test"></div>
+        <div v-for="item in items" >
+            <router-link :to="{ name: 'news', params: { id: item.url,title: item.title}}">
                 <mu-card-header :title="item.author_name" :subTitle="item.title">
                     <mu-avatar :src="item.thumbnail_pic_s" slot="avatar"/>
                 </mu-card-header>
                 <mu-card-media :title="item.category" :subTitle="item.author_name">
                     <img :src="item.thumbnail_pic_s"/>
                 </mu-card-media>
-            <!--</router-link>-->
+            </router-link>
         </div>
         <mu-infinite-scroll :scroller="scroller" :loading="loading" @load="loadMore" loadingText="加载中"/>
     </div>
@@ -30,29 +31,21 @@
                 page:0,
                 url:'http://123.207.47.17/xgg/news',
                 customStyle:{
-                    top: '55px',
+                    top: '0px',
                     width: '100%',
-                    height:'100px',
+                    height:'100%',
                     'overflow-y':'auto',
                     'overflow-x':'hidden',
                     '-webkit-overflow-scrolling': 'touch',
                     position: 'relative',
                     'user-select': 'none',
-                    bottom:'100px'
                 }
             }
         },
         mounted () {
-            this.scroller = this.$el
             this.trigger = this.$el
+
         },
-        watch:{
-            'window.onresize':{
-                handler:(val,oldVal)=>{
-                    console.log(val,oldVal);
-                },
-                deep:true
-        }},
         methods:{
             loadMore () {
                this.getdate(true);
@@ -77,18 +70,48 @@
                     this.$http.get(this.url)
                             .then((response) => {
                                 var items = response.data['result']['data'];
-                                this.items = items;
                                 this.progress = false;
                                 this.refreshing = false
+                                this.items = items;
                             });
                 }
             }
         },
         created () {
             this.getdate(false);
-            //设定窗口高度。
-            this.customStyle.height = window.innerHeight-55+'px';
-//            this.customStyle.height = '100px';
+            var weak_this = this;
+            //滚动监听
+            window.onscroll = function(){
+                if (getScrollTop() + getClientHeight() == getScrollHeight()){
+                    weak_this.getdate(true);
+                }
+            }
+            //获取滚动条的位置
+            function getScrollTop() {
+                var scrollTop = 0;
+                if (document.documentElement && document.documentElement.scrollTop) {
+                    scrollTop = document.documentElement.scrollTop;
+                }
+                else if (document.body) {
+                    scrollTop = document.body.scrollTop;
+                }
+                return scrollTop;
+            }
+            //获取可见范围
+            function getClientHeight() {
+                var clientHeight = 0;
+                if (document.body.clientHeight && document.documentElement.clientHeight) {
+                    clientHeight = Math.min(document.body.clientHeight, document.documentElement.clientHeight);
+                }
+                else {
+                    clientHeight = Math.max(document.body.clientHeight, document.documentElement.clientHeight);
+                }
+                return clientHeight;
+            }
+            //获取文档完整的位置
+            function getScrollHeight() {
+                return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            }
         }
     }
 </script>
