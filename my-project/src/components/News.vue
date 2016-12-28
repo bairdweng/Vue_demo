@@ -17,7 +17,10 @@
               news:'',
               title:'新闻',
               iframecontent:{
+                  frameborder:'0',
+                  'scrolling':'no',
                   width:'100%',
+                  height:'100%'
               }
           }
       },

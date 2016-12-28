@@ -20,13 +20,14 @@
 </template>
 <script>
     export default{
+        props: ['loadingmore'],
         data (){
             return {
                 items:[],
                 progress:true,
-                loading:false,
                 refreshing:false,
                 scroller: null,
+                loading:false,
                 trigger: null,
                 page:0,
                 url:'http://123.207.47.17/xgg/news',
@@ -39,12 +40,11 @@
                     '-webkit-overflow-scrolling': 'touch',
                     position: 'relative',
                     'user-select': 'none',
-                }
+                },
             }
         },
         mounted () {
             this.trigger = this.$el
-
         },
         methods:{
             loadMore () {
@@ -83,7 +83,10 @@
             //滚动监听
             window.onscroll = function(){
                 if (getScrollTop() + getClientHeight() == getScrollHeight()){
-                    weak_this.getdate(true);
+                    console.log(weak_this.loadingmore);
+                    if (weak_this.loadingmore){
+                        weak_this.getdate(true);
+                    }
                 }
             }
             //获取滚动条的位置

@@ -13,8 +13,7 @@ Vue.use(VueRouter)
 //路由配置
 const routes = [
   { path: '/myapp', component: App},
-  { path: '/myapp:id', component: Newpage},
-  { path: '/newpage', component: Newpage },
+  { path: '/record:title', component: Newpage ,name:'record'},
   { path: '/news:id:title', component: News,name: 'news'}
 ]
 const router = new VueRouter({

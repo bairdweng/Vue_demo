@@ -6,7 +6,7 @@
         </div>
         <div class="bar-container">
             <keep-alive>
-                <MainView v-if="bottomNav == 'tab1'"></MainView>
+                <MainView :loadingmore = "loadingmore"  v-if="bottomNav == 'tab1'"></MainView>
                 <Function v-if="bottomNav == 'tab2'"></Function>
                 <Setting v-if="bottomNav == 'tab3'"></Setting>
             </keep-alive>
@@ -15,7 +15,7 @@
             <mu-paper>
                 <mu-bottom-nav :value="bottomNav" @change="handleChange">
                     <mu-bottom-nav-item value="tab1" title="新闻" icon="restore"/>
-                    <mu-bottom-nav-item value="tab2" title="功能" icon="favorite"/>
+                    <mu-bottom-nav-item value="tab2" title="记录" icon="favorite"/>
                     <mu-bottom-nav-item value="tab3" title="设置" icon="location_on"/>
                 </mu-bottom-nav>
             </mu-paper>
@@ -30,29 +30,38 @@
         components: {
             MainView,
             Function,
-            Setting
+            Setting,
         },
         data () {
             return {
                 bottomNav: 'tab1',
-                title:'新闻'
+                title:'新闻',
+                loadingmore:false
             }
         },
         methods: {
             handleChange (val){
-                this.bottomNav = val;
                 switch(val){
                     case 'tab1':
                         this.title = '新闻'
+                        this.loadingmore = true;
                         break;
                     case 'tab2':
-                        this.title = '功能'
+                        this.title = '记录'
+                        this.loadingmore = false;
                         break;
                     case 'tab3':
                         this.title = '设置'
+                        this.loadingmore = false;
                         break;
                     default:
                 }
+                var weak_this = this;
+                //延迟执行
+                setTimeout(function (a) {
+                    weak_this.bottomNav = val;
+                },1);
+
             }
         }
     }

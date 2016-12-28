@@ -1,10 +1,11 @@
 <template>
     <div>
         <div class="fixed_div">
-            <mu-appbar title="基本状况">
+            <mu-appbar :title="title">
                 <mu-icon-button onclick="window.history.go(-1)" icon="close" slot="left"/>
             </mu-appbar>
         </div>
+        <div class="base-reacord">
         <div class="zhanwei"></div>
         <div v-for="item in items" class="container">
              <mu-text-field :label="item.label" :hintText="item.hintText" v-model=item.value fullWidth/><br/>
@@ -12,6 +13,7 @@
         <div class="container">
             <mu-raised-button v-on:click = "finish" label="完成" fullWidth/></br></br>
             <mu-toast v-if="toast" :message="message"/><br>
+        </div>
         </div>
     </div>
 </template>
@@ -51,10 +53,17 @@
                     value:""
                 }],
                 toast: false,
-                message:"一旦"
+                title:""
             }
         },
-        methods:{
+        watch: {
+            // 如果路由有变化，会再次执行该方法
+            '$route': 'fetchData'
+        },
+        created(){
+               this.fetchData();
+            },
+            methods:{
             finish: function (){
                 for (var index in this.items){
                     var item = this.items[index]
@@ -70,7 +79,18 @@
                     if (obj.toastTimer) clearTimeout(obj.toastTimer)
                     obj.toastTimer = setTimeout(() => { obj.toast = false },2000)
                 }
+            },
+            fetchData :function () {
+                var title = this.$route.params.title;
+                if (title){
+                    this.title = title;
+                }
             }
         }
     }
 </script>
+<style>
+.base-reacord{
+    margin: 10px 10px 10px 10px;
+}
+</style>

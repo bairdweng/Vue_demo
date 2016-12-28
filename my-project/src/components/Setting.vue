@@ -1,7 +1,6 @@
 
 <template>
     <div class="container">
-        <!--<mobile-tear-sheet>-->
             <mu-list>
                 <mu-list-item disabled title="通知与信息设置" describeText="总是中断"/>
             </mu-list>
@@ -34,7 +33,6 @@
         </div>
 </template>
 <script>
-//    import mobileTearSheet from '../../../components/mobileTearSheet'
     export default {
         data () {
             return {
