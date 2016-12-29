@@ -9,7 +9,6 @@ var env = process.env.NODE_ENV
 var cssSourceMapDev = (env === 'development' && config.dev.cssSourceMap)
 var cssSourceMapProd = (env === 'production' && config.build.productionSourceMap)
 var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
-
 module.exports = {
   entry: {
     app: './src/main.js'
@@ -72,12 +71,16 @@ module.exports = {
         }
       },
       {
+        //增加一个query对象,防止字体找不到。
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         loader: 'url',
-        query: {
+        query: [{
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
-        }
+        },{
+          limit: 10000,
+          name: utils.assetsPath('../fonts/[name].[hash:7].[ext]')
+        }]
       },{
         test: /vue-scroller.src.*?js$/,
         loader: 'babel'

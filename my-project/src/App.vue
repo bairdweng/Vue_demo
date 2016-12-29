@@ -61,7 +61,6 @@
                 setTimeout(function (a) {
                     weak_this.bottomNav = val;
                 },1);
-
             }
         }
     }
