@@ -1,66 +1,48 @@
 <template>
-    <div class="container" id="mainview">
-        <div class="fixed_div">
-            <mu-appbar :title='title'>
-            </mu-appbar>
-        </div>
-        <div class="bar-container">
+    <div >
+        <Hearderbar :commData="commConf"></Hearderbar>
+        <div class="zhanwei"></div>
+        <div>
             <keep-alive>
-                <MainView :loadingmore = "loadingmore"  v-if="bottomNav == 'tab1'"></MainView>
-                <Function v-if="bottomNav == 'tab2'"></Function>
-                <Setting v-if="bottomNav == 'tab3'"></Setting>
+             <router-view></router-view>
             </keep-alive>
         </div>
-        <div class="fixed_bottom">
-            <mu-paper>
-                <mu-bottom-nav :value="bottomNav" @change="handleChange">
-                    <mu-bottom-nav-item value="tab1" title="新闻" icon="restore"/>
-                    <mu-bottom-nav-item value="tab2" title="记录" icon="favorite"/>
-                    <mu-bottom-nav-item value="tab3" title="设置" icon="location_on"/>
-                </mu-bottom-nav>
-            </mu-paper>
-        </div>
+        <div class="zhanwei"></div>
+        <Footerbar :commData="commConf" v-show="commConf.isFooter"></Footerbar>
+        <Loadingbar :LoadingText="loadingConf.loadingText"  v-show="loadingConf.isLoading"></Loadingbar>
+        <mu-toast v-if="loadingConf.isToast" :message="loadingConf.toastText" />
     </div>
 </template>
 <script>
-    import MainView from './components/Main.vue'
-    import Function from './components/Function.vue'
-    import Setting from './components/Setting.vue'
+    import Hearderbar from './components/Header.vue'
+    import Footerbar from './components/Footer.vue'
+    import Loadingbar from './components/Loading.vue'
     export default {
         components: {
-            MainView,
-            Function,
-            Setting,
+            Hearderbar,
+            Footerbar,
+            Loadingbar
         },
         data () {
             return {
-                bottomNav: 'tab1',
-                title:'新闻',
-                loadingmore:false
-            }
-        },
-        methods: {
-            handleChange (val){
-                switch(val){
-                    case 'tab1':
-                        this.title = '新闻'
-                        this.loadingmore = true;
-                        break;
-                    case 'tab2':
-                        this.title = '记录'
-                        this.loadingmore = false;
-                        break;
-                    case 'tab3':
-                        this.title = '设置'
-                        this.loadingmore = false;
-                        break;
-                    default:
+                commData:{
+                    title:'育儿期',
+                    isFooter:true
                 }
-                var weak_this = this;
-                //延迟执行
-                setTimeout(function (a) {
-                    weak_this.bottomNav = val;
-                },1);
+          }
+        },
+        created(){
+            this.$router.push('/mainview');
+//            this.$router.push('/login');
+        },
+        //获取vuex的公共参数。
+        computed:{
+            commConf:function () {
+                return  this.$store.getters.commConf
+            },
+            loadingConf:function () {
+                var  Obj = this.$store.getters.loadingConf;
+                return  Obj
             }
         }
     }

@@ -1,33 +1,24 @@
-import VueRouter from 'vue-router'
-import App from './App.vue'
 import Vue from 'vue'
-import VueResource from 'vue-resource'
-import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
-import 'material-design-icons/iconfont/material-icons.css'
-import './Cusetom.css'
-import News from './components/News.vue'
-import Newpage from './components/Newpage.vue'
-Vue.use(VueResource);
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import './css/custombase.css'
+import MuseUI from 'muse-ui'
+import VueResource from 'vue-resource'
+import './api/api'
+import router from './router/routes'
+import store from './store/store'//使用vuex。
+import './tools/tools'
+
+
+
+
+Vue.use(VueResource)
 Vue.use(MuseUI)
-Vue.use(VueRouter)
-//路由配置
-const routes = [
-  { path: '/myapp', component: App},
-  { path: '/record:title', component: Newpage ,name:'record'},
-  { path: '/news:id:title', component: News,name: 'news'}
-]
-const router = new VueRouter({
-  routes
-})
 const app = new Vue({
-  router
+  router,
+  store
 }).$mount('#app')
-router.push('/myapp')
-
-
-
-
-
+// router.push('/myapp')
+window.HOST_NAME = "http://192.168.9.238";
 
 

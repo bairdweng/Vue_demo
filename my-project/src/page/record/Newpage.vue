@@ -1,12 +1,6 @@
 <template>
     <div>
-        <div class="fixed_div">
-            <mu-appbar :title="title">
-                <mu-icon-button onclick="window.history.go(-1)" icon="close" slot="left"/>
-            </mu-appbar>
-        </div>
         <div class="base-reacord">
-        <div class="zhanwei"></div>
         <div v-for="item in items" class="container">
              <mu-text-field :label="item.label" :hintText="item.hintText" v-model=item.value fullWidth/><br/>
         </div>
@@ -29,7 +23,6 @@
                     label: '年龄',
                     hintText:'请输入您的年龄',
                     value:""
-
                 }, {
                     label: '职业',
                     hintText:'请输入您的职业',
@@ -46,44 +39,48 @@
                     label: '户口所在地',
                     hintText:'请输入您的户口所在地',
                     value:""
-
                 }, {
                     label: '工作单位',
                     hintText:'请输入您的工作单位',
                     value:""
                 }],
                 toast: false,
-                title:""
+                title:"",
+                message:''
             }
         },
-        watch: {
-            // 如果路由有变化，会再次执行该方法
-            '$route': 'fetchData'
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                vm.reloadData();
+            })
         },
-        created(){
-               this.fetchData();
-            },
-            methods:{
-            finish: function (){
-                for (var index in this.items){
+        methods: {
+            finish: function () {
+                for (var index in this.items) {
                     var item = this.items[index]
-                    if (item.value.length==0){
-                        this.message = '请输入您的'+item.label;
+                    if (item.value.length == 0) {
+                        this.message = '请输入您的' + item.label;
                         showToast(this);
                         return;
                     }
                 }
                 //显示Toast。
-                function showToast(obj){
+                function showToast(obj) {
                     obj.toast = true
                     if (obj.toastTimer) clearTimeout(obj.toastTimer)
-                    obj.toastTimer = setTimeout(() => { obj.toast = false },2000)
+                    obj.toastTimer = setTimeout(() => {
+                        obj.toast = false
+                    }, 2000)
                 }
             },
-            fetchData :function () {
+            reloadData: function () {
                 var title = this.$route.params.title;
                 if (title){
-                    this.title = title;
+                    this.$store.commit('COMM_CONF',{
+                        isFooter:false,
+                        isBack:true,
+                        title:title
+                    });
                 }
             }
         }
