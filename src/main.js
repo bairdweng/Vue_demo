@@ -8,17 +8,12 @@ import './api/api'
 import router from './router/routes'
 import store from './store/store'//使用vuex。
 import './tools/tools'
-
-
-
-
 Vue.use(VueResource)
 Vue.use(MuseUI)
 const app = new Vue({
   router,
   store
 }).$mount('#app')
-// router.push('/myapp')
 window.HOST_NAME = "http://192.168.9.238";
 
 
